@@ -8,8 +8,7 @@ from storage import util
 
 server = Flask(__name__)
 
-server.config["MONGO_URI"] = os.environ.get("MONGO_URI")
-
+server.config["MONGO_URI"] = "mongodb://mongodb:27017/images"
 mongo = PyMongo(server)
 
 fs = gridfs.GridFS(mongo.db)
