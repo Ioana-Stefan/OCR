@@ -1,20 +1,21 @@
 import os, gridfs, pika , json
-from flask import Flask, request
+from flask import Flask, request, send_file
 from auth import validate
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 from auth_svc import access
 from storage import util
 
 
 server = Flask(__name__)
 
-server.config["MONGO_URI"] = "mongodb://mongodb:27017/images"
-mongo = PyMongo(server)
+mongo_image = PyMongo(server, uri="mongodb://host.minikube.internal:27017/images")
+mongo_text  = PyMongo(server, uri="mongodb://host.minikube.internal:27017/text")
+fs_image = gridfs.GridFS(mongo_image.db)
+fs_text  = gridfs.GridFS(mongo_text.db)
 
-fs = gridfs.GridFS(mongo.db)
-
-connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
-channel = connection.channel()
+connection  = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
+channel     = connection.channel()
 
 @server.route("/login", methods=["POST"])
 def login():
@@ -28,6 +29,8 @@ def login():
 @server.route("/upload", methods=["POST"])
 def upload():
     access, err = validate.token(request)
+    if err:
+        return err
     
     access = json.loads(access)
 
@@ -36,7 +39,7 @@ def upload():
             return "only one file permitted", 400
         
         for _, f in request.files.items():
-            err = util.upload(f, fs, channel, access)
+            err = util.upload(f, fs_image, channel, access)
 
             if err:
                 return err;
@@ -48,7 +51,26 @@ def upload():
     
 @server.route("/download", methods=["GET"])
 def download():
-    pass
+    access, err = validate.token(request)
+    if err:
+        return err
+    
+    access = json.loads(access)
+
+    if access["admin"]:
+        fid_string = request.args.get("fid")
+
+        if not fid_string:
+            return "fid is required", 400
+
+        try:
+            out = fs_text.get(ObjectId(fid_string))
+            return send_file(out, download_name=f"{fid_string}.txt")
+        except Exception as err:
+            print(err)
+            return "error downloading the file", 500
+
+    return "not authorized", 401
 
 
 if __name__ == "__main__":
