@@ -4,7 +4,8 @@ def upload(f, fs, channel, access):
     try:
         fid = fs.put(f)
     except Exception as err:
-        return "internal server error", 500
+        print(repr(err))
+        return repr(err), 500
     
     message = {
         "image_fid": str(fid),
@@ -16,11 +17,12 @@ def upload(f, fs, channel, access):
         channel.basic_publish(
             exchange = "",
             routing_key = "image", 
-            ody = json.dump(message),
+            body = json.dumps(message),
             properties = pika.BasicProperties(
                 delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE
-            )
+            ),
         )
     except Exception as err:
+        print(repr(err))
         fs.delete(fid)
-        return "internal server error", 500
+        return repr(err), 500

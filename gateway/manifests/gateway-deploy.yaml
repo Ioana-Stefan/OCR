@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: stefanioana/gateway
+          image: stefanioana/gateway:latest
           envFrom:
             - configMapRef:
                 name: gateway-configmap

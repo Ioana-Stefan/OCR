@@ -1,6 +1,6 @@
+CREATE DATABASE auth;
 CREATE USER 'user' @'%' IDENTIFIED BY 'user';
-CREATE DATABASE IF NOT EXISTS auth;
-GRANT ALL PRIVILEGES ON auth.* TO 'user' @'localhost';
+GRANT ALL PRIVILEGES ON auth.* TO 'user' @'%';
 FLUSH PRIVILEGES;
 USE auth;
 CREATE TABLE user (

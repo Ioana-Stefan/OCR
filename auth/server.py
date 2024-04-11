@@ -34,7 +34,7 @@ def login():
         if auth.username != email or auth.password != password:
             return "invalid credentials", 401
         else:
-            return createJWT(auth.username, os.environ.get(JWT_SECRET), True)
+            return createJWT(auth.username, os.environ.get("JWT_SECRET"), True)
         
     else:
         return "invalid credentials", 401
@@ -53,7 +53,7 @@ def validate():
         decoded = jwt.decode(
             encoded_jwt, os.environ.get("JWT_SECRET"), algorithms=["HS256"]
         )
-    except: 
+    except Exception as err: 
         return "not authorized", 403
     
     return decoded, 200
@@ -64,7 +64,7 @@ def createJWT(username, secret, authz):
             "username": username,
             "exp": datetime.datetime.now(tz=datetime.timezone.utc)
             + datetime.timedelta(days=1),
-            "iat": datetime.datetime.now(datetime.UTC),
+            "iat": datetime.datetime.utcnow(),
             "admin": authz,
         },
         secret,
