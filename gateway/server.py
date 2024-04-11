@@ -9,8 +9,8 @@ from storage import util
 
 server = Flask(__name__)
 
-mongo_image = PyMongo(server, uri="mongodb://host.minikube.internal:27017/images")
-mongo_text  = PyMongo(server, uri="mongodb://host.minikube.internal:27017/text")
+mongo_image = PyMongo(server, uri="mongodb://mongodb:27017/images")
+mongo_text  = PyMongo(server, uri="mongodb://mongodb:27017/text")
 fs_image = gridfs.GridFS(mongo_image.db)
 fs_text  = gridfs.GridFS(mongo_text.db)
 

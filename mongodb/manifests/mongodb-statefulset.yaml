@@ -1,20 +1,18 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mongodb
 spec:
   selector:
     matchLabels:
       app: mongodb
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: mongodb
     spec:
       containers:
-        - image: stefanioana/mongodb
+        - image: stefanioana/mongodb:latest
           name: mongodb
           ports:
             - containerPort: 27017
