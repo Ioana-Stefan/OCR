@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocr
+  labels:
+    app: ocr
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ocr
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 4
+  template:
+    metadata:
+      labels:
+        app: ocr
+    spec:
+      containers:
+        - name: ocr
+          image: stefanioana/ocr:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: ocr-configmap
+            - secretRef:
+                name: ocr-secret

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ocr-configmap
+data:
+  TEXT_QUEUE: "text"
+  IMAGE_QUEUE: "image"
