@@ -35,11 +35,11 @@ def main():
 
     channel.start_consuming()
 
-    if __name__ == "__main__" :
-        try:
-            main()
-        except KeyboardInterrupt:
-             print("Interrupted")
+if __name__ == "__main__" :
+    try:
+        main()
+    except Exception:
+        print("Interrupted")
         try:
             sys.exit(0)
         except SystemExit:
