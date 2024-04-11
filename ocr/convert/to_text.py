@@ -15,15 +15,9 @@ def start(message, fs_images, fs_text, channel):
     print(text)
     tf.close()
 
-    tf_text = tempfile.NamedTemporaryFile(suffix=f"/{message['image_fid']}.txt")
-    byte_text = bytes(text, 'utf-8')
-    tf_text.write(byte_text)
+    text = text.encode('utf-8')
 
-    f = open(tf_text.name, "rb")
-    data = f.read()
-    fid = fs_text.put(data)
-    f.close()
-    os.remove(tf_text)
+    fid = fs_text.put(text)
 
     message["image_fid"] = str(fid)
 
