@@ -14,7 +14,7 @@ def main():
         fs_text = gridfs.GridFS(db_text)
 
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host="rabbitmq")
+            pika.ConnectionParameters(host="rabbitmq", heartbeat=600)
         )
 
         channel = connection.channel()

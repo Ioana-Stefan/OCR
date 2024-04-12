@@ -14,7 +14,7 @@ mongo_text  = PyMongo(server, uri="mongodb://mongodb:27017/text")
 fs_image = gridfs.GridFS(mongo_image.db)
 fs_text  = gridfs.GridFS(mongo_text.db)
 
-connection  = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
+connection  = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq", heartbeat=600))
 channel     = connection.channel()
 
 @server.route("/login", methods=["POST"])
