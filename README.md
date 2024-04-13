@@ -28,12 +28,12 @@ Python was the programming language of choice. You will also find SQL and javasc
 
 Application flow:
 
-1. Send request to gateway to authenticate
-2. Request comes back with JWT. Every request you send must include the JWT.
-3. Send request with an image that you want to extract the text from
+1. Send a POST request to the gateway in order to authenticate.
+2. Request comes back with JWT. From now on every request you send must include the JWT.
+3. Send a POST request with an image that you want to extract the text from.
 4. Gateway validates your request, inserts the file into the database. After the upload is completed it writes a message to the **image** queue with the file id returned from the database.
-5. OCR service reads the queue and gets the file from the database. After reading the text from the image it uploads the text file to the database and puts a message to the **text** queue for the notification service.
-6. The notification service reads the message and sends an email to the user with the fid of the text.
+5. OCR service reads the **image** queue and gets the file from the database. After reading the text from the image it uploads the text file to the database and puts a message to the **text** queue for the notification service.
+6. The notification service reads the message from the **text** queue and sends an email to the user with the fid of the text.
 
 As future work I am thinking about:
 
