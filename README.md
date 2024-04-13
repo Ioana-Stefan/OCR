@@ -31,8 +31,8 @@ Application flow:
 1. Send request to gateway to authenticate
 2. Request comes back with JWT. Every request you send must include the JWT.
 3. Send request with an image that you want to extract the text from
-4. Gateway validates you request, will take the file and it will upload it in the database. After upload complete will write a message to the **image** queue with the file id returned from the database.
-5. OCR service reads the queue and gets the file from the database. After reading the text from the image it uploads the text to the database and puts a message to the **text** queue for the notification service.
+4. Gateway validates your request, inserts the file into the database. After the upload is completed it writes a message to the **image** queue with the file id returned from the database.
+5. OCR service reads the queue and gets the file from the database. After reading the text from the image it uploads the text file to the database and puts a message to the **text** queue for the notification service.
 6. The notification service reads the message and sends an email to the user with the fid of the text.
 
 ## Install, Configuration and Run
@@ -60,4 +60,4 @@ Run:
 
 1. curl -X POST http://imagetotext.com/login -u email:password -> First send a request with you credentials in order to be authenticated and to receive a JWT
 2. curl -X POST -F 'file=@./image.jpg' -H 'Authorization: Bearer <JWT_TOKEN>' http://imagetotext.com/upload -> Send a request with a file and the received JWT
-3. curl --output -X GET -H 'Authorization: Bearer <JWT_TOKEN>' http://imagetotext.com/download?fid={fid_received_in_the_email} -> After receiving the email send a request using the fid to download the file.
+3. curl --output -X GET -H 'Authorization: Bearer <JWT_TOKEN>' http://imagetotext.com/download?fid={fid_received_in_the_email} -> After receiving the email send a request using the fid to download the text file.
