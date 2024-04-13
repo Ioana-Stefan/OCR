@@ -40,13 +40,13 @@ As future work I am thinking about:
 1. Adding monitoring and logging services like Prometheus for recording metrics and Grafana for data visualization
 2. Creating a Helm Chart for easier configuration and deployment to Kubernetes cluster
 
-## Install, Configuration and Run
+## Install, Configure, Run and Monitor
 
 I developed and ran the project on Ubuntu 22.04 LTS but everything can be done as well on Windows or MacOS.
 
 Installation:
 
-1. Instal Python 3.10.
+1. Install Python 3.10.
 2. Install [Docker](https://docs.docker.com/engine/install/).
 3. Install [Minikube](https://minikube.sigs.k8s.io/docs/start/).
 4. Install [kubectl](https://kubernetes.io/docs/tasks/tools/).
