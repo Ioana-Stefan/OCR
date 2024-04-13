@@ -53,7 +53,7 @@ Configuration:
 3. If you are on Linux or MacOS you can go to /etc/hosts and add the output ip address from minikube tunnel and match it to the DNS name the ingress is set. (e.g. 192.168.49.2 imagetotext.com 192.168.49.2 rabbitmq-manager.com). If you are on Windows you go to C:\Windows\System32\drivers\etc\hosts.
 4. Go to notification/send/email.py and uncomment the code. Please fill the credentials for the email address of the service inside notification/manifests/secret.yaml
 5. Deploy the rabbitmq service using **kubectl apply -f manifests**
-6. Connect to the manager console inside the web browser by connecting to rabbitmq-manager.com. Default username and password are bot 'guest'. Go to queues and create a text and image queue. Use the default settings, just type the queue name and create it. If you would like you can use a different exchange than the default one but you will have to change the code inside the dependent services. You can set up persistance, etc., but for a fast run, you should just create them without any additional configuration.
+6. Connect to the manager console inside the web browser by connecting to rabbitmq-manager.com. Default username and password are both 'guest'. Go to queues and create a text and image queue. Use the default settings, just type the queue name and create it. If you would like you can use a different exchange than the default one but you will have to change the code inside the dependent services. You can set up persistance, etc., but for a fast run, you should just create them without any additional configuration.
 7. Deploy all the other resources inside the cluster.
 
 Run:
