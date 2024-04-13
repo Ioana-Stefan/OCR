@@ -35,6 +35,11 @@ Application flow:
 5. OCR service reads the queue and gets the file from the database. After reading the text from the image it uploads the text file to the database and puts a message to the **text** queue for the notification service.
 6. The notification service reads the message and sends an email to the user with the fid of the text.
 
+As future work I am thinking about:
+
+1. Adding monitoring and logging services like Prometheus for recording metrics and Grafana for data visualization
+2. Creating a Helm Chart for easier configuration and deployment to Kubernetes cluster
+
 ## Install, Configuration and Run
 
 I developed and ran the project on Ubuntu 22.04 LTS but everything can be done as well on Windows or MacOS.
@@ -48,7 +53,7 @@ Installation:
 
 Configuration:
 
-1. Go to mysql/init.sql and change the databse user credentials and the credentials of the user that you would want to authenticate to in order to run the application. Don't forget to also make these changes in auth/manifests/configmap.yaml.
+1. Go to mysql/init.sql and change the databse user credentials and the credentials of the user that you would want to authenticate with in order to run the application. Don't forget to also make these changes in auth/manifests/configmap.yaml.
 2. Start Minikube and enable ingress and ingress-dns addons. Also you need to run **minikube tunnel** in order to channel the ingress traffic to localhost.
 3. If you are on Linux or MacOS you can go to /etc/hosts and add the output ip address from minikube tunnel and match it to the DNS name the ingress is set. (e.g. 192.168.49.2 imagetotext.com 192.168.49.2 rabbitmq-manager.com). If you are on Windows you go to C:\Windows\System32\drivers\etc\hosts.
 4. Go to notification/send/email.py and uncomment the code. Please fill the credentials for the email address of the service inside notification/manifests/secret.yaml
@@ -61,3 +66,7 @@ Run:
 1. curl -X POST http://imagetotext.com/login -u email:password -> First send a request with you credentials in order to be authenticated and to receive a JWT
 2. curl -X POST -F 'file=@./image.jpg' -H 'Authorization: Bearer <JWT_TOKEN>' http://imagetotext.com/upload -> Send a request with a file and the received JWT
 3. curl --output -X GET -H 'Authorization: Bearer <JWT_TOKEN>' http://imagetotext.com/download?fid={fid_received_in_the_email} -> After receiving the email send a request using the fid to download the text file.
+
+Monitor:
+
+For basic monitoring you can use Minikube's cluster dashboard by running **minikube dashboard** and opening the link in your web browser.
