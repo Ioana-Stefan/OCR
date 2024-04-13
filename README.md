@@ -16,7 +16,7 @@ The project contains the following services:
 **gateway** -> A gateway service designed to be the entry point of the application. </br>
 **MySQL** -> MySQL database used for storing users credentials. </br>
 **MongoDB** -> MongoDB database used for storing files. GridFS driver is used in order to store documents bigger than 16 MB. </br>
-**rabbitmq** -> RabbitMQ is a message-broker which holds two separate queues (image, text) where the micro services will publish and consume messages. </br>
+**rabbitmq** -> RabbitMQ is a message-broker which holds two separate queues (image, text) where the microservices will publish and consume messages. </br>
 **ocr** -> Converter service. It's making use of Tesseract binary and PyTesseract library in order to extract text from images. </br>
 **notification** -> Notification service. As soon as the conversion is done, will make use of an SMTP server in order to send the user an email letting him know that the conversion is completed and the file is ready for download. </br>
 
